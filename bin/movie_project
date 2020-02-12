@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
-puts "Hello World"
+require './lib/cli_movie_project'
+
+MovieDictionary::CLI.new.call
 
  

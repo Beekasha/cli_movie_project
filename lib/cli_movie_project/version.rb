@@ -1,3 +1,3 @@
-module CliMovieProject
+module MovieDictionary
   VERSION = "0.1.0"
 end
