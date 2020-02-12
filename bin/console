@@ -2,6 +2,8 @@
 
 require "bundler/setup"
 require "cli_movie_project"
+require 'dotenv/load'
+
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
@@ -11,4 +13,7 @@ require "cli_movie_project"
 # Pry.start
 
 require "irb"
+require 'rest-client'
+require 'json'
+require "dotenv"
 IRB.start(__FILE__)
