@@ -25,6 +25,7 @@ class MovieDictionary::CLI
     def get_movie_info
         input = gets.strip
         # while input != "exit
+       
         puts "puts out the movie info from api"
     end
 
