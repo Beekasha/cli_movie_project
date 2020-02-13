@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
 
 API_KEY = "YOUR_API_KEY_HERE"
+
 require './lib/cli_movie_project'
 
-MovieDictionary::CLI.new.call
+CLI.new.call
 
  

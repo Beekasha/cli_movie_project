@@ -1,4 +1,4 @@
-class MovieDictionary::Movie
+class Movie
     attr_accessor :Title, :Actors, :Plot, :Director, :Awards, :Year, :Writer
 
     @@all = []
@@ -60,7 +60,7 @@ class MovieDictionary::Movie
             @@watchlist << self
             puts "#{self.Title} was successfully added to your watchlist."
             puts
-            MovieDictionary::Movie.display_watchlist
+            Movie.display_watchlist
             puts
         else
 
@@ -68,15 +68,15 @@ class MovieDictionary::Movie
                 titles << movie.Title
             end
 
-            if titles.include?(MovieDictionary::CLI.current_movie_title)
+            if titles.include?(CLI.current_movie_title)
                 puts
                 puts "#{self.Title} is already on your watchlist."
-                MovieDictionary::Movie.display_watchlist
+                Movie.display_watchlist
             else
                 @@watchlist << self
                 puts "#{self.Title} was successfully added to your watchlist."
                 puts
-                MovieDictionary::Movie.display_watchlist
+                Movie.display_watchlist
             end
         end
     end
