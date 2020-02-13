@@ -3,7 +3,6 @@
 #Uncomment the line below and insert your API key.
 API_KEY = "<YOUR_API_KEY_HERE>"
 
-
 require './lib/cli_movie_project'
 
 CLI.new.call

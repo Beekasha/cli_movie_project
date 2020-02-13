@@ -44,8 +44,6 @@ class CLI
             else
                 Movie.finder(input).display_movie #display existing movie object
                 movie_menu
-                        #display the movie found
-                        #main menu
             end
         end
         
@@ -67,11 +65,8 @@ class CLI
             input_2 = gets.chomp
             if input_2 == "y"
                 @@current_movie.add_to_watchlist
-
             end
-            
         else
-
             main_menu
         end
         main_menu
@@ -85,16 +80,12 @@ class CLI
     end
 
     def create_movie_from_api(title)
-        
         url = "http://www.omdbapi.com/?t=#{title}&apikey=#{API_KEY}"
-       
-    
         response = RestClient.get(url)
         hash = JSON.parse(response, symbolize_names: true)
         new_movie = Movie.new(hash)
         # example_hash = {:Title=>"Iron Man", :Year=>"2008", :Rated=>"PG-13", :Released=>"02 May 2008", :Runtime=>"126 min", :Genre=>"Action, Adventure, Sci-Fi", :Director=>"Jon Favreau", :Writer=>"Mark Fergus (screenplay), Hawk Ostby (screenplay), Art Marcum (screenplay), Matt Holloway (screenplay), Stan Lee (characters), Don Heck (characters), Larry Lieber (characters), Jack Kirby (characters)", :Actors=>"Robert Downey Jr., Terrence Howard, Jeff Bridges, Gwyneth Paltrow", :Plot=>"After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.", :Language=>"Hungarian, Kurdish, Hindi, English, Persian, Urdu, Arabic", :Country=>"USA", :Awards=>"Nominated for 2 Oscars. Another 21 wins & 65 nominations.", :Poster=>"https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg", :Ratings=>[{:Source=>"Internet Movie Database", :Value=>"7.9/10"}, {:Source=>"Rotten Tomatoes", :Value=>"94%"}, {:Source=>"Metacritic", :Value=>"79/100"}], :Metascore=>"79", :imdbRating=>"7.9", :imdbVotes=>"896,884", :imdbID=>"tt0371746", :Type=>"movie", :DVD=>"30 Sep 2008", :BoxOffice=>"$318,298,180", :Production=>"Paramount Pictures", :Website=>"N/A", :Response=>"True"}
         new_movie
-        
     end
 
     def watchlist_menu
@@ -105,7 +96,7 @@ class CLI
             main_menu
         else
             input_int = input.to_i
-            if input_int <= Movie.watchlist.count
+            if input_int <= Movie.watchlist.count && input_int > 0
                 Movie.delete_from_watchlist(input_int)
                 Movie.display_watchlist
                 watchlist_menu
@@ -121,8 +112,5 @@ class CLI
     def self.current_movie_title
         @@current_movie.Title
     end
-
-    
-
 
 end
