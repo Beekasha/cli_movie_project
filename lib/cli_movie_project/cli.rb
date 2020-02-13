@@ -23,13 +23,19 @@ class CLI
         input = gets.strip
         @@current_input = input
         
+        input_to_movie(input)
+            
+        
+    end
+
+    def input_to_movie(input)
         if input == "watchlist"
             Movie.display_watchlist
             watchlist_menu
-        elsif input != "exit"
-            # the check for API SAVER should be here
+        elsif input == "exit"
+            exit
+        else
             if !Movie.previous_search?
-            # binding.pry
                 converted_title = convert_movie_title(input)
                 new_movie = create_movie_from_api(converted_title)
                 @@current_movie = new_movie
@@ -37,19 +43,11 @@ class CLI
                 movie_menu
             else
                 Movie.finder(input).display_movie #display existing movie object
-                main_menu
-                #display the movie found
-                #main menu
+                movie_menu
+                        #display the movie found
+                        #main menu
             end
-        else
-           exit
-
         end
-            
-        
-    end
-
-    def input_to_movie
         
     end
 
