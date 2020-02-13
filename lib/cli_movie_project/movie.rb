@@ -16,24 +16,6 @@ class MovieDictionary::Movie
         puts
         puts "#{self.Title} is a #{self.Year} film directed by #{self.Director}."
         puts
-        # puts "Would you like to know more?(y/n)"
-        # input = gets.strip
-        # if input == "y"
-        #     puts "Actors: #{self.Actors}"
-        #     puts "Plot: #{self.Plot}"
-        #     if self.Awards != []
-        #         puts "Awards: #{self.Awards}"
-        #     end
-        # end
-        # puts "Would you like to add #{self.Title} (#{self.Year}) to your watchlist? (y/n)"
-        # input = gets.strip
-        # if input == y
-        #     @@watchlist << self
-        # else
-            
-        # end
-
-            #should go back to main menu
     end
 
     def display_more_info
@@ -55,6 +37,7 @@ class MovieDictionary::Movie
             puts
             puts "Sorry, your watchlist is empty."
             puts
+            
         else
             @@watchlist.each.with_index(1) do |movie, i|
                 puts
@@ -69,35 +52,43 @@ class MovieDictionary::Movie
         @@all
     end
 
-    # def add_to_watchlist
-    #     if @@watchlist.include?(self)
-    #         puts "#{self.Title} is already on your watchlist."
-    #     else
-    #         @@watchlist << self
-    #         puts "#{self.Title} was successfully added to your watchlist."
-    #         puts
-    #     end
-    # end
-
 
     def add_to_watchlist
-        if @@watchlist == []
+        titles = []
+
+        if @@watchlist == [] #empty array
             @@watchlist << self
             puts "#{self.Title} was successfully added to your watchlist."
             puts
+            MovieDictionary::Movie.display_watchlist
+            puts
         else
-            @@watchlist.each do |movie|
-                if movie.Title == self.Title
-                    puts
-                    puts "#{self.Title} is already on your watchlist."
-                else
-                    @@watchlist << self
-                    puts "#{self.Title} was successfully added to your watchlist."
-                    puts
-                
-                end
+
+            @@watchlist.each do |movie| #logging all the titles
+                titles << movie.Title
+            end
+
+            if titles.include?(MovieDictionary::CLI.current_movie_title)
+                puts
+                puts "#{self.Title} is already on your watchlist."
+                MovieDictionary::Movie.display_watchlist
+            else
+                @@watchlist << self
+                puts "#{self.Title} was successfully added to your watchlist."
+                puts
+                MovieDictionary::Movie.display_watchlist
             end
         end
+    end
+
+
+    def self.watchlist
+        @@watchlist
+    end
+
+    def self.delete_from_watchlist(num)
+        @@watchlist.delete_at(num-1)
+        puts "Your selection has been removed from the watchlist."
     end
 
     
