@@ -1,3 +1,4 @@
+
 class Movie
     attr_accessor :Title, :Actors, :Plot, :Director, :Awards, :Year, :Writer
 
@@ -5,12 +6,27 @@ class Movie
     @@watchlist = []
 
     def initialize(hash)
+        # self.previous_search?
         hash.each_pair do |k, v|
             instance_variable_set("@#{k}", v)
         end
         @@all << self
         # self.display_movie
+   
     end
+
+    def self.previous_search?
+        if @@all != []
+            @@all.each do |movie|
+                if movie.Title.downcase == CLI.current_movie_title.downcase
+                    true
+                else
+                    false
+                end
+            end
+        end
+    end
+    
 
     def display_movie
         puts

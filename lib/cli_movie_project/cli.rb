@@ -1,11 +1,13 @@
 #CLI Controller
-require "pry"
+require "pry-byebug"
+# require "pry"
 require 'dotenv/load'
 
 class CLI
 
     @@current_movie = []
     @@searches = []
+    @@current_input = []
 
     def call
         puts
@@ -19,20 +21,33 @@ class CLI
         puts 'Or, you can view your watchlist by typing "watchlist".'
         puts
         input = gets.strip
+        @@current_input = input
+        
         if input == "watchlist"
             Movie.display_watchlist
             watchlist_menu
         elsif input != "exit"
-            converted_title = convert_movie_title(input)
-            new_movie = create_movie_from_api(converted_title)
-            @@current_movie = new_movie
-            new_movie.display_movie
-            movie_menu
+            # the check for API SAVER should be here
+            if !Movie.previous_search?
+            # binding.pry
+                converted_title = convert_movie_title(input)
+                new_movie = create_movie_from_api(converted_title)
+                @@current_movie = new_movie
+                new_movie.display_movie
+                movie_menu
+            else
+                #needs to find the correct movie object in @@all - so write a finder in the movie class
+                #display the movie found
+                #main menu
+            end
             
         end
+    end
 
 
-
+    def get_input
+        input = gets.strip
+        input
     end
 
     def movie_menu
@@ -58,6 +73,7 @@ class CLI
 
 
     def convert_movie_title(user_input_title) #returns input for API
+        @@current_input = user_input_title
         user_input_title.split(" ").join("+")
     end
 

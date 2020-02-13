@@ -8,4 +8,5 @@ gem "dotenv", "~> 2.7.5"
 
 gem 'rest-client'
 gem 'json'
+gem 'pry-byebug'
 

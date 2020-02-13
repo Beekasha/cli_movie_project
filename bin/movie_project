@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
-# API_KEY = <YOUR_API_KEY_HERE>
-
+#Uncomment the line below and insert your API key.
+# API_KEY = "<YOUR_API_KEY_HERE>"
+API_KEY = "1b497a58"
 
 require './lib/cli_movie_project'
 
