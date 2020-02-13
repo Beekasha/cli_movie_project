@@ -41,7 +41,7 @@ class CLI
         input = gets.chomp
         if input == "y"
             puts @@current_movie.display_more_info
-            puts "Do you want to add #{@@current_movie.Title} (#{@@current_movie.Year}) to your watchlist?"
+            puts "Do you want to add #{@@current_movie.Title} (#{@@current_movie.Year}) to your watchlist? (y/n)"
             input_2 = gets.chomp
             if input_2 == "y"
                 @@current_movie.add_to_watchlist
@@ -64,7 +64,7 @@ class CLI
     def create_movie_from_api(title)
         
         url = "http://www.omdbapi.com/?t=#{title}&apikey=#{API_KEY}"
-        # url = "http://www.omdbapi.com/?t=#{title}&apikey=1b497a58"
+       
     
         response = RestClient.get(url)
         hash = JSON.parse(response, symbolize_names: true)

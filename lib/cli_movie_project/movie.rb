@@ -36,7 +36,7 @@ class Movie
         if @@watchlist == []
             puts
             puts "Sorry, your watchlist is empty."
-            puts
+            puts "Exit your watchlist to select a movie."
             
         else
             @@watchlist.each.with_index(1) do |movie, i|
