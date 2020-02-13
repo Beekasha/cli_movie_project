@@ -36,12 +36,21 @@ class CLI
                 new_movie.display_movie
                 movie_menu
             else
-                #needs to find the correct movie object in @@all - so write a finder in the movie class
+                Movie.finder(input).display_movie #display existing movie object
+                main_menu
                 #display the movie found
                 #main menu
             end
-            
+        else
+           exit
+
         end
+            
+        
+    end
+
+    def input_to_movie
+        
     end
 
 

@@ -107,6 +107,14 @@ class Movie
         puts "Your selection has been removed from the watchlist."
     end
 
+    def self.finder(input)
+        user_input = input.downcase
+        @@all.each do |movie|
+            return movie if movie.Title.downcase == user_input
+        end
+        
+    end
+
     
 
   
