@@ -35,7 +35,7 @@ class CLI
         elsif input == "exit"
             exit
         else
-            if !Movie.previous_search?
+            if !Movie.previously_searched?
                 converted_title = convert_movie_title(input)
                 new_movie = create_movie_from_api(converted_title)
                 @@current_movie = new_movie

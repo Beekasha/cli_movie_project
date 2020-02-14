@@ -12,7 +12,7 @@ class Movie
         @@all << self
     end
 
-    def self.previous_search?
+    def self.previously_searched?
         if @@all != []
             @@all.each do |movie|
                 if movie.Title.downcase == CLI.current_movie_title.downcase
