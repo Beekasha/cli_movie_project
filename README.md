@@ -10,7 +10,8 @@ You must first input your API Key as instructed in './bin/movie_project'. Then, 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/<github username>/cli_movie_project.
+Bug reports and pull requests are welcome on GitHub at https://github.com/beekasha/cli_movie_project.
+CLI_Movie_Project was created by Brian Kleiner for Flatiron School.
 
 ## License
 

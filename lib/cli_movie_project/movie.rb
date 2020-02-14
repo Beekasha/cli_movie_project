@@ -1,6 +1,6 @@
 
 class Movie
-    attr_accessor :Title, :Actors, :Plot, :Director, :Awards, :Year, :Writer
+    attr_accessor :Title, :Actors, :Plot, :Director, :Awards, :Year, :Writer, :Response
 
     @@all = []
     @@watchlist = []
@@ -9,7 +9,10 @@ class Movie
         hash.each_pair do |k, v|
             instance_variable_set("@#{k}", v)
         end
-        @@all << self
+
+        if self.Response == "True" #Prevents invalid searches from being added to @@all
+            @@all << self
+        end
     end
 
     def self.previously_searched?
