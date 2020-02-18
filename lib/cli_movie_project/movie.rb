@@ -78,7 +78,6 @@ class Movie
             Movie.display_watchlist
             puts
         else
-
             @@watchlist.each do |movie| #logging all the titles
                 titles << movie.Title
             end
@@ -110,13 +109,6 @@ class Movie
         user_input = input.downcase
         @@all.each do |movie|
             return movie if movie.Title.downcase == user_input
-        end
-        
+        end 
     end
-
-    
-
-  
-
-    
 end

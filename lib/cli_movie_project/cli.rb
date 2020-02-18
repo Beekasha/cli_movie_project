@@ -6,7 +6,6 @@ require 'dotenv/load'
 class CLI
 
     @@current_movie = []
-    @@searches = []
     @@current_input = []
 
     def call
@@ -24,8 +23,6 @@ class CLI
         @@current_input = input
         
         input_to_movie(input)
-            
-        
     end
 
     def input_to_movie(input)
@@ -46,7 +43,6 @@ class CLI
                 movie_menu
             end
         end
-        
     end
 
 
@@ -71,7 +67,6 @@ class CLI
         end
         main_menu
     end
-
 
 
     def convert_movie_title(user_input_title) #returns input for API
@@ -110,11 +105,9 @@ class CLI
                 watchlist_menu
             end
         end
-
     end
 
     def self.current_movie_title
         @@current_movie.Title
     end
-
 end
