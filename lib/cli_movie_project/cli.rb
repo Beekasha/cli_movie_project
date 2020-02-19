@@ -5,9 +5,6 @@ require 'dotenv/load'
 
 class CLI
 
-    @@current_movie = []
-    @@current_input = []
-
     def call
         puts
         puts "Welcome to the Movie Dictionary!"
@@ -20,12 +17,11 @@ class CLI
         puts 'Or, you can view your watchlist by typing "watchlist".'
         puts
         input = gets.strip
-        @@current_input = input
-        
         input_to_movie(input)
     end
 
     def input_to_movie(input)
+
         if input == "watchlist"
             Movie.display_watchlist
             watchlist_menu
@@ -33,10 +29,9 @@ class CLI
             exit
         else
             if !Movie.previously_searched?
-                converted_title = convert_movie_title(input)
-                new_movie = create_movie_from_api(converted_title)
-                @@current_movie = new_movie
-                new_movie.display_movie
+                converted_title = Scraper.convert_movie_title(input)
+                @@current_movie = Scraper.create_movie_from_api(converted_title)
+                @@current_movie.display_movie
                 movie_menu
             else
                 Movie.finder(input).display_movie #display existing movie object
@@ -45,19 +40,13 @@ class CLI
         end
     end
 
-
-    def get_input
-        input = gets.strip
-        input
-    end
-
     def movie_menu
         puts
         puts "Would you like to know more about this movie? (y/n)"
         input = gets.chomp
         if input == "y"
             puts @@current_movie.display_more_info
-            puts "Do you want to add #{@@current_movie.Title} (#{@@current_movie.Year}) to your watchlist? (y/n)"
+            puts "Do you want to add #{@@current_movie.title} (#{@@current_movie.year}) to your watchlist? (y/n)"
             input_2 = gets.chomp
             if input_2 == "y"
                 @@current_movie.add_to_watchlist
@@ -68,25 +57,6 @@ class CLI
         main_menu
     end
 
-
-    def convert_movie_title(user_input_title) #returns input for API
-        @@current_input = user_input_title
-        user_input_title.split(" ").join("+")
-    end
-
-    def create_movie_from_api(title)
-        url = "http://www.omdbapi.com/?t=#{title}&apikey=#{API_KEY}"
-        response = RestClient.get(url)
-        hash = JSON.parse(response, symbolize_names: true)
-        new_movie = Movie.new(hash)
-        if new_movie.Response == "False"
-            puts "Invalid Movie Title: Please try another entry."
-            main_menu
-        end
-        # example_hash = {:Title=>"Iron Man", :Year=>"2008", :Rated=>"PG-13", :Released=>"02 May 2008", :Runtime=>"126 min", :Genre=>"Action, Adventure, Sci-Fi", :Director=>"Jon Favreau", :Writer=>"Mark Fergus (screenplay), Hawk Ostby (screenplay), Art Marcum (screenplay), Matt Holloway (screenplay), Stan Lee (characters), Don Heck (characters), Larry Lieber (characters), Jack Kirby (characters)", :Actors=>"Robert Downey Jr., Terrence Howard, Jeff Bridges, Gwyneth Paltrow", :Plot=>"After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.", :Language=>"Hungarian, Kurdish, Hindi, English, Persian, Urdu, Arabic", :Country=>"USA", :Awards=>"Nominated for 2 Oscars. Another 21 wins & 65 nominations.", :Poster=>"https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg", :Ratings=>[{:Source=>"Internet Movie Database", :Value=>"7.9/10"}, {:Source=>"Rotten Tomatoes", :Value=>"94%"}, {:Source=>"Metacritic", :Value=>"79/100"}], :Metascore=>"79", :imdbRating=>"7.9", :imdbVotes=>"896,884", :imdbID=>"tt0371746", :Type=>"movie", :DVD=>"30 Sep 2008", :BoxOffice=>"$318,298,180", :Production=>"Paramount Pictures", :Website=>"N/A", :Response=>"True"}
-        new_movie
-    end
-
     def watchlist_menu
         puts
         puts "What # do you want to remove from your watchlist? (or type 'exit' to go back)"
@@ -94,9 +64,8 @@ class CLI
         if input == "exit"
             main_menu
         else
-            input_int = input.to_i
-            if input_int <= Movie.watchlist.count && input_int > 0
-                Movie.delete_from_watchlist(input_int)
+            if input.to_i <= Movie.watchlist.count && input.to_i > 0
+                Movie.delete_from_watchlist(input.to_i)
                 Movie.display_watchlist
                 watchlist_menu
             else
@@ -108,6 +77,6 @@ class CLI
     end
 
     def self.current_movie_title
-        @@current_movie.Title
-    end
+        @@current_movie.title
+    end 
 end

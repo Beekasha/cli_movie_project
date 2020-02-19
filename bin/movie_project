@@ -4,8 +4,8 @@
 #This can be found at omdbapi.com
 #insert your API Key in the line below.
 
-API_KEY = "YOUR_API_KEY_HERE"
-require './lib/cli_movie_project'
+# API_KEY = "YOUR_API_KEY_HERE"
+require_relative '../lib/cli_movie_project.rb'
 
 CLI.new.call
 

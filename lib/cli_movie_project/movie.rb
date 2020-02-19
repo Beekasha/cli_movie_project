@@ -1,16 +1,16 @@
 
 class Movie
-    attr_accessor :Title, :Actors, :Plot, :Director, :Awards, :Year, :Writer, :Response
+    attr_accessor :title, :actors, :plot, :director, :awards, :year, :writer, :response
 
     @@all = []
     @@watchlist = []
 
     def initialize(hash)
         hash.each_pair do |k, v|
-            instance_variable_set("@#{k}", v)
+            instance_variable_set("@#{k.downcase}", v)
         end
 
-        if self.Response == "True" #Prevents invalid searches from being added to @@all
+        if self.response == "True" #Prevents invalid searches from being added to @@all
             @@all << self
         end
     end
@@ -18,7 +18,7 @@ class Movie
     def self.previously_searched?
         if @@all != []
             @@all.each do |movie|
-                if movie.Title.downcase == CLI.current_movie_title.downcase
+                if movie.title.downcase == CLI.current_movie_title.downcase
                     true
                 end
             end
@@ -29,21 +29,21 @@ class Movie
 
     def display_movie
         puts
-        puts "#{self.Title} is a #{self.Year} film directed by #{self.Director}."
+        puts "#{self.title} is a #{self.year} film directed by #{self.director}."
         puts
     end
 
     def display_more_info
         puts
-        puts "Actors: #{self.Actors}"
+        puts "actors: #{self.actors}"
         puts
-        puts "Plot: #{self.Plot}"
+        puts "plot: #{self.plot}"
         puts
-        if self.Awards != []
-            puts "Awards: #{self.Awards}"
+        if self.awards != []
+            puts "awards: #{self.awards}"
             puts
         end
-        puts "Written By: #{self.Writer}"
+        puts "Written By: #{self.writer}"
         puts
     end
 
@@ -56,7 +56,7 @@ class Movie
         else
             @@watchlist.each.with_index(1) do |movie, i|
                 puts
-                puts "#{i}. #{movie.Title} (#{movie.Year})"
+                puts "#{i}. #{movie.title} (#{movie.year})"
             end
         end
     end
@@ -73,22 +73,22 @@ class Movie
 
         if @@watchlist == [] #empty array
             @@watchlist << self
-            puts "#{self.Title} was successfully added to your watchlist."
+            puts "#{self.title} was successfully added to your watchlist."
             puts
             Movie.display_watchlist
             puts
         else
             @@watchlist.each do |movie| #logging all the titles
-                titles << movie.Title
+                titles << movie.title
             end
 
             if titles.include?(CLI.current_movie_title)
                 puts
-                puts "#{self.Title} is already on your watchlist."
+                puts "#{self.title} is already on your watchlist."
                 Movie.display_watchlist
             else
                 @@watchlist << self
-                puts "#{self.Title} was successfully added to your watchlist."
+                puts "#{self.title} was successfully added to your watchlist."
                 puts
                 Movie.display_watchlist
             end
@@ -108,7 +108,7 @@ class Movie
     def self.finder(input)
         user_input = input.downcase
         @@all.each do |movie|
-            return movie if movie.Title.downcase == user_input
+            return movie if movie.title.downcase == user_input
         end 
     end
 end
