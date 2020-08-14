@@ -5,6 +5,12 @@ require 'dotenv/load'
 
 class CLI
 
+    attr_accessor :searches
+
+    def initialize
+        @searches = []
+    end
+
     def call
         puts
         puts "Welcome to the Movie Dictionary!"
@@ -28,31 +34,43 @@ class CLI
         elsif input == "exit"
             exit
         else
-            if !Movie.previously_searched?
-                converted_title = Scraper.convert_movie_title(input)
-                @@current_movie = Scraper.create_movie_from_api(converted_title)
-                @@current_movie.display_movie
-                movie_menu
+            # scraper = Scraper.new
+            # movie = if previously_searched?(input.downcase)
+            #     Movie.finder(input)
+            # else
+            #     scraper.search(input)
+            # end
+            # if scraper.error
+            #     puts scraper.error
+            #     main_menu
+            # else
+            #     movie.display_movie
+            #     movie_menu(movie)
+            # end
+
+            movie = Movie.finder(input)
+
+            if movie
+                movie.display_movie
+                movie_menu(movie)           
             else
-                Movie.finder(input).display_movie #display existing movie object
-                movie_menu
+                puts Movie.error
             end
+            main_menu
         end
     end
 
-    def movie_menu
+    def movie_menu(movie)
         puts
         puts "Would you like to know more about this movie? (y/n)"
         input = gets.chomp
         if input == "y"
-            puts @@current_movie.display_more_info
-            puts "Do you want to add #{@@current_movie.title} (#{@@current_movie.year}) to your watchlist? (y/n)"
+            puts movie.display_more_info
+            puts "Do you want to add #{movie.title} (#{movie.year}) to your watchlist? (y/n)"
             input_2 = gets.chomp
             if input_2 == "y"
-                @@current_movie.add_to_watchlist
+                movie.add_to_watchlist
             end
-        else
-            main_menu
         end
         main_menu
     end
@@ -76,7 +94,13 @@ class CLI
         end
     end
 
-    def self.current_movie_title
-        @@current_movie.title
-    end 
+    def previously_searched?(input)
+        return false if input.empty?
+        if  searches.include?(input)
+            true
+        else
+            searches << input
+            false
+        end 
+    end
 end

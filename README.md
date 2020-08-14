@@ -7,6 +7,7 @@ This gem acts as a movie queue. You can find out more information about your sel
 
 You must first input your API Key as instructed in './bin/movie_project'. Then, run 'bundle install' to install any required dependencies. Lastly, you can run the './bin/movie_project' file in order to begin the program.
 
+![](demo.gif)
 
 ## Contributing
 

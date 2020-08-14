@@ -4,7 +4,16 @@ class Movie
 
     @@all = []
     @@watchlist = []
+    def self.error=(error)
 
+        @@error = error
+
+    end
+
+    def self.error
+        @@error
+    end
+    
     def initialize(hash)
         hash.each_pair do |k, v|
             instance_variable_set("@#{k.downcase}", v)
@@ -15,14 +24,9 @@ class Movie
         end
     end
 
-    def self.previously_searched?
-        if @@all != []
-            @@all.each do |movie|
-                if movie.title.downcase == CLI.current_movie_title.downcase
-                    true
-                end
-            end
-            false
+    def self.previously_searched?(movie)
+        !!@@all.detect do |m|
+            m.title.downcase == movie.title.downcase
         end
     end
     
@@ -82,16 +86,15 @@ class Movie
                 titles << movie.title
             end
 
-            if titles.include?(CLI.current_movie_title)
+            if @@watchlist.include?(self)
                 puts
                 puts "#{self.title} is already on your watchlist."
-                Movie.display_watchlist
             else
                 @@watchlist << self
                 puts "#{self.title} was successfully added to your watchlist."
                 puts
-                Movie.display_watchlist
             end
+            Movie.display_watchlist
         end
     end
 
@@ -107,8 +110,14 @@ class Movie
 
     def self.finder(input)
         user_input = input.downcase
-        @@all.each do |movie|
-            return movie if movie.title.downcase == user_input
-        end 
+        movie = @@all.detect do |movie|
+            movie.title.downcase == user_input
+        end
+        if !movie
+            scraper = Scraper.new
+            movie = scraper.search(input)
+            self.error = scraper.error if scraper.error
+        end
+        movie
     end
 end
